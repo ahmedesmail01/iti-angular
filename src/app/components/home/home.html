@@ -1,0 +1,84 @@
+<div class="container my-5">
+  <h2>total price: {{totalBuyPrice}}</h2>
+  <h2>selected category: {{selectedCategoryId}}</h2>
+  <button (click)="changeCat()">change cat to 2</button>
+  <!-- selecting category -->
+  <div class="form-floating my-4">
+    <select
+      class="form-select"
+      id="floatingSelect"
+      aria-label="Floating label select example"
+      [(ngModel)]="selectedCategoryId"
+      (change)="felterProducts()"
+    >
+      <option selected value="0">All</option>
+      <option selected *ngFor="let cat of categories" [value]="cat.id">
+        {{cat.name}}
+      </option>
+    </select>
+    <label for="floatingSelect">Works with selects</label>
+  </div>
+
+  <!-- grid products -->
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    @for (prd of felteredProducts; track prd.id; let i = $index) {
+    <!-- <div
+      class="card"
+      [ngStyle]="{border: (prd.price === 100) ? '2px solid green': '2px solid red' , backgroundColor: (i%2 === 0)? 'lightgray': 'white'}"
+      appHighlightCard
+    > -->
+    <div class="card" appHighlightCard="gray">
+      <img
+        [src]="prd.imageUrl"
+        class="card-img-top"
+        alt="Fissure in Sandstone"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{prd.name}}</h5>
+        <p class="card-text">{{prd.description}}</p>
+        <!-- <p class="card-text">price : {{prd.price}}</p> -->
+        @switch (prd.price) { @case (100) {
+        <p class="card-text">only 100 $</p>
+        } @case (200) {
+        <p class="card-text">best selling</p>
+        }@default {
+        <p class="card-text">price : {{prd.price | currency: "EUR"}}</p>
+        } }
+        <input type="number" #prdCount placeholder="count" />
+        <button
+          class="btn btn-primary"
+          data-mdb-ripple-init
+          (click)="buy(prdCount.value , prd.price)"
+        >
+          Button
+        </button>
+      </div>
+    </div>
+    }@empty {
+    <div class="alert alert-warning" role="alert">no products found</div>
+    }
+
+    <!-- <div class="col-md" *ngFor="for let prd of products">
+      <div class="card">
+        <img
+          [src]="prd.imageUrl"
+          class="card-img-top"
+          alt="Fissure in Sandstone"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{prd.name}}</h5>
+          <p class="card-text">{{prd.description}}</p>
+          <p class="card-text">price : {{prd.price}}</p>
+          <input type="number" #prdCount placeholder="count" />
+          <button
+            class="btn btn-primary"
+            data-mdb-ripple-init
+            (click)="buy(prdCount.value , prd.price)"
+          >
+            Button
+          </button>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
