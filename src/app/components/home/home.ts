@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { IProduct } from '../../models/iproduct';
 import { CommonModule } from '@angular/common';
 import { ICategory } from '../../models/icategory';
@@ -11,12 +17,12 @@ import { HighlightCard } from '../../directives/highlight-card';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
+export class Home implements OnChanges {
   products: IProduct[];
+  @Input() recievedCatId: number = 0;
   felteredProducts: IProduct[];
-  categories: ICategory[];
   totalBuyPrice: number = 0;
-  selectedCategoryId: number = 0;
+  @Output() onTotalPriceChange: EventEmitter<number>;
   constructor() {
     this.products = [
       {
@@ -75,26 +81,24 @@ export class Home {
       },
     ];
     this.felteredProducts = this.products;
-
-    this.categories = [
-      { id: 1, name: 'Category 1' },
-      { id: 2, name: 'Category 2' },
-    ];
+    this.onTotalPriceChange = new EventEmitter<number>();
   }
 
   buy(count: string, price: number) {
     this.totalBuyPrice += +count * price;
+    this.onTotalPriceChange.emit(this.totalBuyPrice);
   }
-  changeCat() {
-    this.selectedCategoryId = 2;
+
+  ngOnChanges(): void {
+    this.felterProducts();
   }
 
   felterProducts() {
-    if (this.selectedCategoryId == 0) {
+    if (this.recievedCatId == 0) {
       this.felteredProducts = this.products;
     } else {
       this.felteredProducts = this.products.filter(
-        (p) => p.categoryId == this.selectedCategoryId
+        (p) => p.categoryId == this.recievedCatId
       );
     }
   }
