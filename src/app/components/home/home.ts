@@ -11,6 +11,7 @@ import { ICategory } from '../../models/icategory';
 import { FormsModule } from '@angular/forms';
 import { HighlightCard } from '../../directives/highlight-card';
 import { StaticProducts } from '../../services/static-products';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,7 @@ export class Home implements OnChanges {
   felteredProducts: IProduct[];
   totalBuyPrice: number = 0;
   @Output() onTotalPriceChange: EventEmitter<number>;
-  constructor(private _staticProducts: StaticProducts) {
+  constructor(private _staticProducts: StaticProducts, private router: Router) {
     this.products = this._staticProducts.getAllProducts();
     this.felteredProducts = this.products;
     this.onTotalPriceChange = new EventEmitter<number>();
@@ -40,6 +41,10 @@ export class Home implements OnChanges {
     this.felteredProducts = this._staticProducts.getProductsByCategoryId(
       this.recievedCatId
     );
+  }
+
+  navigateToDetails(id: number) {
+    this.router.navigateByUrl(`/details/${id}`);
   }
 
   // felterProducts() {

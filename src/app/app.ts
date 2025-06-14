@@ -7,7 +7,7 @@ import { Order } from './components/order/order';
 
 @Component({
   selector: 'app-root',
-  imports: [Navbar, Footer, Order],
+  imports: [Navbar, Footer, Order, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

@@ -28,14 +28,17 @@
         }@default {
         <p class="card-text">price : {{prd.price | currency: "EUR"}}</p>
         } }
-        <input type="number" #prdCount placeholder="count" />
+        <button class="btn-primary" (click)="navigateToDetails(prd.id)">
+          Details
+        </button>
+        <!-- <input type="number" #prdCount placeholder="count" />
         <button
           class="btn btn-primary"
           data-mdb-ripple-init
           (click)="buy(prdCount.value , prd.price)"
         >
           Button
-        </button>
+        </button> -->
       </div>
     </div>
     }@empty {
