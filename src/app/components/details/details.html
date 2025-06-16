@@ -1,4 +1,25 @@
-<p>details works!</p>
-<h1>{{CurrentProduct?.name}}</h1>
-<p>{{CurrentProduct?.description}}</p>
-<p>{{CurrentProduct?.price}}</p>
+<div class="p-4">
+  <p>details works!</p>
+  <h1>{{CurrentProduct?.name}}</h1>
+  <p>{{CurrentProduct?.description}}</p>
+  <p>{{CurrentProduct?.price}}</p>
+
+  <button class="btn-primary" (click)="goBack()">back</button>
+
+  <div>
+    <button
+      class="btn-primary"
+      [disabled]="currentId === idsArr[0]"
+      (click)="goPrev()"
+    >
+      Previous
+    </button>
+    <button
+      class="btn-primary"
+      [disabled]="currentId === idsArr[idsArr.length -1]"
+      (click)="goNext()"
+    >
+      Next
+    </button>
+  </div>
+</div>
